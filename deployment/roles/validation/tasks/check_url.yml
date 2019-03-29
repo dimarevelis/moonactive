@@ -1,0 +1,7 @@
+---
+- name: Validate urls
+  block:
+    - copy:
+        src: check_url.sh
+        dest: /tmp/check_url.sh
+    - shell: "bash /tmp/check_url.sh"

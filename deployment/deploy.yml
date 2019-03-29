@@ -1,14 +1,19 @@
 - hosts: all
   name: Deploy Webserices
   gather_facts: no
-  become: yes
   tasks:
     - include_role:
         name: python
         tasks_from: install_python.yml
+      become: yes
     - include_role:
         name: services
         tasks_from: deploy_services.yml
+      become: yes
     - include_role:
         name: services
         tasks_from: install_nginx.yml
+      become: yes
+    - include_role:
+        name: validation
+        tasks_from: check_url.yml
