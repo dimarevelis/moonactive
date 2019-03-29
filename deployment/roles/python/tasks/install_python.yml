@@ -1,0 +1,13 @@
+---
+- name: Install Pyhton
+  yum:
+    name: python-pip
+    state: latest
+
+
+- name: Install requirements packages
+  pip:
+    name: "{{item}}"
+  with_items:
+    "{{python_req}}"
+  become: yes

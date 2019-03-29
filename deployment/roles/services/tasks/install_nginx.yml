@@ -1,0 +1,14 @@
+---
+- name: install nginx service
+  yum:
+    name: nginx
+    state: latest
+
+- name: Configure Nginx
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+- shell: "chkconfig nginx on"
+
+- name: Start Nginx
+  shell: service nginx restart

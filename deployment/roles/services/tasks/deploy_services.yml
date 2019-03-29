@@ -1,0 +1,44 @@
+---
+- name: Create service Dir
+  file:
+    path: "{{service_dir}}"
+    owner: "{{service_user}}"
+    group: "{{service_group}}"
+    mode: 0644
+    state: directory
+
+- name: Configure Services
+  copy:
+    src: "{{item}}"
+    dest: "{{service_dir}}/{{item}}"
+    owner: "{{service_user}}"
+    group: "{{service_group}}"
+    mode: "{{service_mode}}"
+  with_items:
+    - service1.py
+    - service2.py
+    - service3.py
+  
+- name: Copy Gunicorn service
+  copy:
+    src: "{{item}}"
+    dest: "{{service_dir}}/{{item}}"
+    owner: "{{service_user}}"
+    group: "{{service_group}}"
+    mode: "{{service_mode}}"
+  with_items:
+    - gunicorn.sh
+
+- name: Stop gunicorn
+  shell: pkill -9 gunicorn
+  
+- name: Start gunicorn on boot
+  cron:
+    name: "gunicorn"
+    special_time: reboot
+    job: "{{service_dir}}/{{item}}"
+  with_items:
+    - gunicorn.sh
+
+- name: Start Gunicorn
+  shell: "bash {{service_dir}}/gunicorn.sh"

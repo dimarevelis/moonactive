@@ -1,0 +1,5 @@
+---
+service_user: "ec2-user"
+service_group: "ec2-user"
+service_mode: "a+x"
+service_dir: "/home/ec2-user/webservice"
